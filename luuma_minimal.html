@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>遛马游戏 — 让每一局都值得</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500&family=DM+Serif+Display:ital@0;1&family=Noto+Sans+SC:wght@300;400&display=swap');
+
+  :root {
+    --bg: #F7F5F0;
+    --fg: #1A1814;
+    --accent: #C8873A;
+    --muted: #8A8580;
+    --border: #E0DDD8;
+    --white: #FFFFFF;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 64px;
+    background: rgba(247,245,240,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    letter-spacing: 0.02em;
+    color: var(--fg);
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--fg); }
+
+  .nav-cta {
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    color: var(--fg);
+    text-decoration: none;
+    padding: 9px 20px;
+    border: 1px solid var(--fg);
+    transition: all 0.2s;
+  }
+
+  .nav-cta:hover {
+    background: var(--fg);
+    color: var(--bg);
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 48px 80px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 32px;
+  }
+
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(48px, 7vw, 88px);
+    line-height: 1.05;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin-bottom: 36px;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero p {
+    font-size: 18px;
+    color: var(--muted);
+    max-width: 520px;
+    line-height: 1.75;
+    margin-bottom: 52px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .btn-primary {
+    background: var(--fg);
+    color: var(--bg);
+    padding: 14px 36px;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    transition: opacity 0.2s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover { opacity: 0.8; }
+
+  .btn-secondary {
+    font-size: 14px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.03em;
+    border-bottom: 1px solid transparent;
+    transition: all 0.2s;
+    padding-bottom: 2px;
+  }
+
+  .btn-secondary:hover {
+    color: var(--fg);
+    border-color: var(--fg);
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 40px;
+    left: 48px;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hero-scroll::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--muted);
+  }
+
+  /* NUMBERS */
+  .numbers {
+    padding: 80px 48px;
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .number-item {
+    background: var(--bg);
+    padding: 52px 48px;
+  }
+
+  .number-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 52px;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .number-value span { color: var(--accent); }
+
+  .number-label {
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    line-height: 1.5;
+  }
+
+  /* ABOUT */
+  .about {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 120px 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .about-label {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  .about h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(32px, 4vw, 52px);
+    line-height: 1.1;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+
+  .about-right {
+    padding-top: 48px;
+  }
+
+  .about-right p {
+    font-size: 16px;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 28px;
+  }
+
+  .about-divider {
+    width: 40px;
+    height: 1px;
+    background: var(--accent);
+    margin-bottom: 28px;
+  }
+
+  /* GAMES */
+  .games {
+    border-top: 1px solid var(--border);
+    padding: 120px 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 64px;
+  }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .section-link {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 2px;
+    transition: all 0.2s;
+  }
+
+  .section-link:hover {
+    color: var(--fg);
+    border-color: var(--fg);
+  }
+
+  .games-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+  }
+
+  .game-card-featured {
+    grid-column: span 3;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: var(--bg);
+    transition: background 0.3s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .game-card-featured::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+
+  .game-card-featured:hover::after { transform: scaleX(1); }
+
+  .featured-left {
+    padding: 48px;
+    border-right: 1px solid var(--border);
+  }
+
+  .featured-right {
+    padding: 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background: var(--white);
+  }
+
+  .featured-big-icon {
+    font-size: 80px;
+    line-height: 1;
+    margin-bottom: 24px;
+  }
+
+  .featured-quote {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .featured-attribution {
+    font-size: 11px;
+    color: var(--accent);
+    margin-top: 14px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .game-card {
+    background: var(--bg);
+    padding: 48px;
+    transition: background 0.3s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .game-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+
+  .game-card:hover::after { transform: scaleX(1); }
+  .game-card:hover { background: var(--white); }
+
+  .game-tag {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+    display: block;
+  }
+
+  .game-icon {
+    font-size: 36px;
+    margin-bottom: 24px;
+    display: block;
+  }
+
+  .game-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 14px;
+    letter-spacing: -0.01em;
+  }
+
+  .game-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* PHILOSOPHY */
+  .philosophy {
+    border-top: 1px solid var(--border);
+    padding: 120px 48px;
+    background: var(--fg);
+    color: var(--bg);
+  }
+
+  .philosophy-inner {
+    max-width: 760px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .philosophy-label {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 40px;
+  }
+
+  .philosophy h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1.1;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin-bottom: 40px;
+  }
+
+  .philosophy h2 em {
+    font-style: italic;
+    opacity: 0.5;
+  }
+
+  .philosophy p {
+    font-size: 17px;
+    opacity: 0.6;
+    line-height: 1.8;
+    margin-bottom: 52px;
+  }
+
+  .philosophy-btn {
+    display: inline-block;
+    padding: 14px 36px;
+    border: 1px solid rgba(247,245,240,0.3);
+    color: var(--bg);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    transition: all 0.2s;
+  }
+
+  .philosophy-btn:hover {
+    background: rgba(247,245,240,0.08);
+    border-color: rgba(247,245,240,0.6);
+  }
+
+  /* TEAM */
+  .team {
+    padding: 120px 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .team h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(28px, 3vw, 40px);
+    font-weight: 400;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+  }
+
+  .team-sub {
+    font-size: 15px;
+    color: var(--muted);
+    margin-bottom: 64px;
+    max-width: 400px;
+    line-height: 1.7;
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+  }
+
+  .team-card {
+    background: var(--bg);
+    padding: 36px 32px;
+  }
+
+  .team-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--fg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  .team-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 6px;
+  }
+
+  .team-role {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 52px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .footer-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    color: var(--fg);
+  }
+
+  .footer-logo span { color: var(--accent); }
+
+  .footer-copy {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .footer-links a {
+    font-size: 12px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--fg); }
+
+  /* FADE IN */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    .hero, .about, .games, .team { padding-left: 24px; padding-right: 24px; }
+    .about { grid-template-columns: 1fr; gap: 40px; }
+    .about-right { padding-top: 0; }
+    .games-grid, .team-grid { grid-template-columns: 1fr; }
+    .numbers { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 24px; text-align: center; }
+    .hero-scroll { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">遛<span>马</span></a>
+  <ul class="nav-links">
+    <li><a href="#">游戏</a></li>
+    <li><a href="#">关于我们</a></li>
+    <li><a href="#">博客</a></li>
+    <li><a href="#">加入我们</a></li>
+  </ul>
+  <a href="#" class="nav-cta">开始游戏</a>
+</nav>
+
+<section class="hero" style="position: relative;">
+  <p class="hero-eyebrow fade-in">成立于 2026 年 · 上海</p>
+  <h1 class="fade-in" style="transition-delay:0.1s">
+    游戏，是<br>
+    另一种<em>快乐</em><br>
+    的语言。
+  </h1>
+  <p class="fade-in" style="transition-delay:0.2s">
+    遛马游戏相信，真正好的游戏<br>
+    不只是消遣——它是一场冒险，一段对话，<br>一次让人忍不住笑出来的瞬间。
+  </p>
+  <div class="hero-actions fade-in" style="transition-delay:0.3s">
+    <a href="#" class="btn-primary">体验飞镖大作战</a>
+    <a href="#" class="btn-secondary">了解我们的故事 →</a>
+  </div>
+  <div class="hero-scroll">向下滚动</div>
+</section>
+
+<div class="numbers">
+  <div class="number-item fade-in">
+    <div class="number-value">01<span>款</span></div>
+    <div class="number-label">首款游戏<br>飞镖大作战</div>
+  </div>
+  <div class="number-item fade-in" style="transition-delay:0.1s">
+    <div class="number-value">2026<span></span></div>
+    <div class="number-label">创立于上海<br>一群热爱游戏的人</div>
+  </div>
+  <div class="number-item fade-in" style="transition-delay:0.2s">
+    <div class="number-value">∞<span></span></div>
+    <div class="number-label">对快乐的追求<br>没有终点</div>
+  </div>
+</div>
+
+<section class="about">
+  <div class="about-left fade-in">
+    <p class="about-label">我们是谁</p>
+    <h2>一群相信<br>游戏能带来<br>快乐的人</h2>
+  </div>
+  <div class="about-right fade-in" style="transition-delay:0.15s">
+    <div class="about-divider"></div>
+    <p>遛马游戏由一群热爱游戏的独立开发者在上海共同创立。我们不追求爆款公式，只追求每一款游戏背后真实的情感与意义。</p>
+    <p>我们相信，做游戏最重要的初心，是让玩的人开心。那种忍不住多来一局、忍不住叫上朋友一起的感觉，就是我们每天来上班的理由。</p>
+    <p>我们的名字来自一种信念：好游戏，就像带着你的马出去遛弯——没有目的地，只有路上的风景。</p>
+  </div>
+</section>
+
+<section class="games">
+  <div class="section-header fade-in">
+    <span class="section-label">我们的游戏</span>
+    <a href="#" class="section-link">查看全部</a>
+  </div>
+  <div class="games-grid">
+    <div class="game-card fade-in" style="grid-column: span 3; display: grid; grid-template-columns: 1fr 1fr; gap: 0;">
+      <!-- Featured game — full width inner split -->
+      <div style="padding: 48px; border-right: 1px solid var(--border);">
+        <span class="game-tag">主打新作 · 现已上线</span>
+        <span class="game-icon">🎯</span>
+        <h3 class="game-title">飞镖大作战</h3>
+        <p class="game-desc">瞄准、出手、欢呼——或者懊悔。飞镖大作战是一款让你和朋友彼此欢笑的对战游戏。规则简单，乐趣无穷，每一局都是新的故事。</p>
+        <div style="margin-top: 28px;">
+          <a href="#" class="btn-primary" style="font-size:13px; padding: 11px 28px;">立即游玩</a>
+        </div>
+      </div>
+      <div style="padding: 48px; display: flex; flex-direction: column; justify-content: flex-end; background: var(--white);">
+        <div style="font-size: 80px; margin-bottom: 24px; line-height:1;">🎯</div>
+        <p style="font-size: 13px; color: var(--muted); line-height: 1.7; margin: 0;">
+          "遛马的第一款游戏，我们想做最直接的那种快乐——<br>两个人坐在一起，争得面红耳赤，最后一起大笑。"
+        </p>
+        <p style="font-size: 11px; color: var(--accent); margin-top: 14px; letter-spacing: 0.1em; text-transform: uppercase;">— 创始团队</p>
+      </div>
+    </div>
+    <div class="game-card fade-in" style="transition-delay:0.1s">
+      <span class="game-tag">即将推出</span>
+      <span class="game-icon">🃏</span>
+      <h3 class="game-title">待定</h3>
+      <p class="game-desc">我们正在认真思考下一个让人欲罢不能的游戏。敬请期待。</p>
+    </div>
+    <div class="game-card fade-in" style="transition-delay:0.2s">
+      <span class="game-tag">即将推出</span>
+      <span class="game-icon">🌿</span>
+      <h3 class="game-title">待定</h3>
+      <p class="game-desc">还没想好，但一定会让你玩了还想再玩一局。这是我们对自己的要求。</p>
+    </div>
+  </div>
+</section>
+
+<section class="philosophy">
+  <div class="philosophy-inner">
+    <p class="philosophy-label">我们的理念</p>
+    <h2>做让人<em>发笑</em>的游戏，<br>而非有流量的产品。</h2>
+    <p>我们不相信游戏只是商品。每一款作品，都应该能让玩家在某个瞬间停下来，感受，然后忍不住笑出来——"再来一局。"</p>
+    <a href="#" class="philosophy-btn">阅读我们的设计宣言</a>
+  </div>
+</section>
+
+<section class="team">
+  <h2 class="fade-in">认识我们的团队</h2>
+  <p class="team-sub fade-in">一小群热爱游戏的人，聚在上海，想做让你开心的东西。</p>
+  <div class="team-grid">
+    <div class="team-card fade-in">
+      <div class="team-avatar">🎨</div>
+      <div class="team-name">陈晓明</div>
+      <div class="team-role">创始人 · 游戏设计</div>
+    </div>
+    <div class="team-card fade-in" style="transition-delay:0.08s">
+      <div class="team-avatar">🖊</div>
+      <div class="team-name">林雨晴</div>
+      <div class="team-role">叙事总监 · 剧本</div>
+    </div>
+    <div class="team-card fade-in" style="transition-delay:0.16s">
+      <div class="team-avatar">⚙️</div>
+      <div class="team-name">王子健</div>
+      <div class="team-role">首席工程师</div>
+    </div>
+    <div class="team-card fade-in" style="transition-delay:0.24s">
+      <div class="team-avatar">🎵</div>
+      <div class="team-name">苏乐天</div>
+      <div class="team-role">音乐与音效</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">遛<span>马</span>游戏</div>
+  <ul class="footer-links">
+    <li><a href="#">隐私政策</a></li>
+    <li><a href="#">服务条款</a></li>
+    <li><a href="#">联系我们</a></li>
+  </ul>
+  <p class="footer-copy">© 2026 遛马游戏工作室 · 上海</p>
+</footer>
+
+<script>
+  // Fade in on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Immediately show hero items
+  setTimeout(() => {
+    document.querySelectorAll('.hero .fade-in').forEach(el => el.classList.add('visible'));
+  }, 100);
+</script>
+</body>
+</html>

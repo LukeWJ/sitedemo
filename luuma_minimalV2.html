@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>遛马网络科技（上海）有限公司 — 游戏研发与发行</title>
+<meta name="description" content="遛马网络科技（上海）有限公司，专注游戏研发与发行，首款产品飞镖大作战现已上线。">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Noto+Sans+SC:wght@300;400;500&display=swap');
+
+:root {
+  --bg:     #F7F5F0;
+  --fg:     #1A1814;
+  --accent: #C8873A;
+  --muted:  #8A8580;
+  --border: #E0DDD8;
+  --white:  #FFFFFF;
+  --light:  #F0EDE6;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Noto Sans SC', sans-serif;
+  font-weight: 300;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0; z-index: 100;
+  height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 52px;
+  background: rgba(247,245,240,0.94);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-brand { display: flex; flex-direction: column; gap: 2px; text-decoration: none; }
+.nav-brand-main {
+  font-family: 'DM Serif Display', serif;
+  font-size: 18px; letter-spacing: 0.01em; color: var(--fg);
+}
+.nav-brand-main span { color: var(--accent); }
+.nav-brand-sub {
+  font-size: 10px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted);
+}
+.nav-links { display: flex; gap: 40px; list-style: none; }
+.nav-links a {
+  font-size: 13px; letter-spacing: 0.05em;
+  color: var(--muted); text-decoration: none; transition: color .2s;
+}
+.nav-links a:hover { color: var(--fg); }
+.nav-cta {
+  font-size: 13px; letter-spacing: 0.04em;
+  color: var(--fg); text-decoration: none;
+  padding: 9px 22px; border: 1px solid var(--fg);
+  transition: all .2s;
+}
+.nav-cta:hover { background: var(--fg); color: var(--bg); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 64px 52px 0;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.hero-left {
+  padding: 80px 60px 80px 0;
+  border-right: 1px solid var(--border);
+}
+.hero-tag {
+  font-size: 10px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--accent);
+  margin-bottom: 28px;
+  display: flex; align-items: center; gap: 10px;
+}
+.hero-tag::before {
+  content: ''; display: block;
+  width: 24px; height: 1px; background: var(--accent);
+}
+.hero h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(44px, 5.5vw, 76px);
+  line-height: 1.06; font-weight: 400;
+  letter-spacing: -0.02em; margin-bottom: 28px;
+}
+.hero h1 em { font-style: italic; color: var(--accent); }
+.hero-desc {
+  font-size: 16px; color: var(--muted);
+  line-height: 1.8; margin-bottom: 44px; max-width: 400px;
+}
+.hero-actions { display: flex; gap: 20px; align-items: center; }
+.btn-primary {
+  background: var(--fg); color: var(--bg);
+  padding: 13px 32px; font-size: 14px;
+  letter-spacing: 0.04em; text-decoration: none;
+  transition: opacity .2s; display: inline-block;
+}
+.btn-primary:hover { opacity: 0.8; }
+.btn-text {
+  font-size: 13px; color: var(--muted);
+  text-decoration: none; letter-spacing: 0.03em;
+  border-bottom: 1px solid transparent;
+  transition: all .2s; padding-bottom: 2px;
+}
+.btn-text:hover { color: var(--fg); border-color: var(--fg); }
+
+/* Hero right — identity card */
+.hero-right { padding: 80px 0 80px 60px; }
+.identity-block {
+  border: 1px solid var(--border);
+  padding: 40px;
+  background: var(--white);
+}
+.identity-label {
+  font-size: 10px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 16px;
+}
+.identity-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px; font-weight: 400;
+  line-height: 1.3; letter-spacing: -0.01em;
+  margin-bottom: 28px; color: var(--fg);
+}
+.identity-rows { border-top: 1px solid var(--border); }
+.identity-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 14px 0; border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.identity-row-key { color: var(--muted); min-width: 80px; }
+.identity-row-val { color: var(--fg); font-weight: 400; }
+.identity-row-val.hi { color: var(--accent); }
+
+/* ── BUSINESS ── */
+.business {
+  background: var(--fg); color: var(--bg);
+  padding: 80px 52px;
+  border-top: 1px solid var(--border);
+}
+.business-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: 220px 1fr;
+  gap: 80px; align-items: start;
+}
+.business-left .eyebrow {
+  font-size: 10px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 20px;
+}
+.business-left h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 400; line-height: 1.12; letter-spacing: -0.02em;
+}
+.biz-cards {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1px; background: rgba(247,245,240,0.1);
+}
+.biz-card {
+  background: rgba(247,245,240,0.04);
+  padding: 32px 28px; transition: background .25s;
+}
+.biz-card:hover { background: rgba(247,245,240,0.08); }
+.biz-num {
+  font-size: 11px; color: var(--accent);
+  letter-spacing: 0.1em; margin-bottom: 16px;
+}
+.biz-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 19px; font-weight: 400; margin-bottom: 10px;
+}
+.biz-desc { font-size: 13px; color: rgba(247,245,240,0.5); line-height: 1.7; }
+
+/* ── PRODUCT ── */
+.product {
+  max-width: 1200px; margin: 0 auto;
+  padding: 100px 52px;
+  border-bottom: 1px solid var(--border);
+}
+.section-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 52px;
+}
+.eyebrow {
+  font-size: 10px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--muted);
+}
+.section-head a {
+  font-size: 13px; color: var(--muted);
+  text-decoration: none; border-bottom: 1px solid var(--border);
+  padding-bottom: 2px; transition: all .2s;
+}
+.section-head a:hover { color: var(--fg); border-color: var(--fg); }
+
+.product-main {
+  display: grid; grid-template-columns: 1.1fr 1fr;
+  gap: 1px; background: var(--border); margin-bottom: 1px;
+}
+.product-info { background: var(--bg); padding: 52px 48px; }
+.product-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 24px;
+}
+.product-badge::before {
+  content: ''; width: 6px; height: 6px;
+  background: var(--accent); border-radius: 50%;
+}
+.product-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 400; letter-spacing: -0.02em;
+  line-height: 1.05; margin-bottom: 14px;
+}
+.product-tagline {
+  font-family: 'DM Serif Display', serif; font-style: italic;
+  font-size: 18px; color: var(--accent); margin-bottom: 22px;
+}
+.product-body {
+  font-size: 15px; color: var(--muted);
+  line-height: 1.8; margin-bottom: 20px; max-width: 420px;
+}
+.product-specs {
+  border-top: 1px solid var(--border); padding-top: 24px;
+  display: grid; grid-template-columns: 1fr 1fr;
+  margin-bottom: 32px;
+}
+.spec-item { padding: 12px 0; border-bottom: 1px solid var(--border); }
+.spec-item:nth-child(odd) { padding-right: 24px; border-right: 1px solid var(--border); }
+.spec-item:nth-child(even) { padding-left: 24px; }
+.spec-key {
+  font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 4px;
+}
+.spec-val { font-size: 14px; color: var(--fg); font-weight: 400; }
+
+.product-visual {
+  background: var(--light); padding: 52px 48px;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center; text-align: center;
+}
+.product-icon {
+  width: 112px; height: 112px;
+  border: 1px solid var(--border); background: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 52px; margin-bottom: 28px;
+}
+.product-pull {
+  font-family: 'DM Serif Display', serif; font-style: italic;
+  font-size: 20px; line-height: 1.4; color: var(--fg);
+  margin-bottom: 14px; max-width: 240px;
+}
+.product-attr {
+  font-size: 11px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--accent);
+}
+
+.coming-strip {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1px; background: var(--border);
+}
+.cs-card {
+  background: var(--bg); padding: 32px 48px;
+  display: flex; align-items: center; gap: 24px;
+  transition: background .25s; position: relative; overflow: hidden;
+}
+.cs-card::after {
+  content: ''; position: absolute;
+  bottom: 0; left: 0; right: 0; height: 2px;
+  background: var(--accent); transform: scaleX(0);
+  transform-origin: left; transition: transform .4s ease;
+}
+.cs-card:hover { background: var(--white); }
+.cs-card:hover::after { transform: scaleX(1); }
+.cs-icon {
+  width: 44px; height: 44px; background: var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.cs-label {
+  font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 5px;
+}
+.cs-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 17px; font-weight: 400; margin-bottom: 3px;
+}
+.cs-note { font-size: 12px; color: var(--muted); }
+
+/* ── ABOUT ── */
+.about {
+  max-width: 1200px; margin: 0 auto;
+  padding: 100px 52px;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: start;
+  border-bottom: 1px solid var(--border);
+}
+.about-label {
+  font-size: 10px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 20px;
+}
+.about h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 400; line-height: 1.12; letter-spacing: -0.02em;
+}
+.about-right { padding-top: 36px; }
+.about-divider { width: 32px; height: 1px; background: var(--accent); margin-bottom: 24px; }
+.about-right p { font-size: 15px; color: var(--muted); line-height: 1.8; margin-bottom: 20px; }
+.about-right p:last-child { margin-bottom: 0; }
+
+/* ── PHILOSOPHY ── */
+.philosophy {
+  background: var(--fg); color: var(--bg);
+  padding: 100px 52px;
+}
+.philosophy-inner { max-width: 700px; margin: 0 auto; text-align: center; }
+.philosophy-label {
+  font-size: 10px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 32px;
+}
+.philosophy h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(32px, 4.5vw, 56px);
+  font-weight: 400; line-height: 1.1;
+  letter-spacing: -0.02em; margin-bottom: 28px;
+}
+.philosophy h2 em { font-style: italic; opacity: 0.42; }
+.philosophy p { font-size: 16px; opacity: 0.52; line-height: 1.8; margin-bottom: 44px; }
+.philosophy-btn {
+  display: inline-block; padding: 13px 32px;
+  border: 1px solid rgba(247,245,240,0.25);
+  color: var(--bg); text-decoration: none;
+  font-size: 13px; letter-spacing: 0.05em; transition: all .2s;
+}
+.philosophy-btn:hover {
+  border-color: rgba(247,245,240,0.55);
+  background: rgba(247,245,240,0.06);
+}
+
+/* ── FOOTER ── */
+footer { border-top: 1px solid var(--border); }
+.footer-main {
+  max-width: 1200px; margin: 0 auto;
+  padding: 52px 52px 32px;
+  display: flex; justify-content: space-between;
+  align-items: flex-start; gap: 40px; flex-wrap: wrap;
+}
+.footer-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: 17px; font-weight: 400; margin-bottom: 6px;
+}
+.footer-name span { color: var(--accent); }
+.footer-fullname { font-size: 11px; color: var(--muted); letter-spacing: 0.03em; line-height: 1.6; }
+.footer-en { font-size: 11px; color: var(--muted); letter-spacing: 0.02em; margin-top: 2px; }
+.footer-industry {
+  font-size: 11px; color: var(--accent);
+  letter-spacing: 0.08em; text-transform: uppercase; margin-top: 10px;
+}
+.footer-links { display: flex; gap: 28px; list-style: none; padding-top: 4px; }
+.footer-links a {
+  font-size: 12px; color: var(--muted);
+  text-decoration: none; letter-spacing: 0.05em; transition: color .2s;
+}
+.footer-links a:hover { color: var(--fg); }
+.footer-bottom {
+  max-width: 1200px; margin: 0 auto;
+  padding: 18px 52px 32px;
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between;
+  align-items: center; gap: 16px; flex-wrap: wrap;
+}
+.footer-copy { font-size: 11px; color: var(--muted); letter-spacing: 0.03em; }
+.footer-copy a { color: var(--muted); text-decoration: none; }
+.footer-copy a:hover { color: var(--fg); }
+.footer-icp { font-size: 11px; color: var(--muted); letter-spacing: 0.03em; }
+
+/* ── FADE IN ── */
+.fi { opacity: 0; transform: translateY(22px); transition: opacity .65s ease, transform .65s ease; }
+.fi.on { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  nav { padding: 0 24px; }
+  .nav-links { display: none; }
+  .hero { grid-template-columns: 1fr; padding: 96px 24px 40px; }
+  .hero-left { padding: 40px 0; border-right: none; border-bottom: 1px solid var(--border); }
+  .hero-right { padding: 40px 0 0; }
+  .business { padding: 60px 24px; }
+  .business-inner { grid-template-columns: 1fr; gap: 32px; }
+  .biz-cards { grid-template-columns: 1fr; }
+  .product { padding: 60px 24px; }
+  .product-main { grid-template-columns: 1fr; }
+  .product-visual { display: none; }
+  .coming-strip { grid-template-columns: 1fr; }
+  .about { grid-template-columns: 1fr; gap: 32px; padding: 60px 24px; }
+  .about-right { padding-top: 0; }
+  .philosophy { padding: 80px 24px; }
+  .footer-main { padding: 40px 24px 24px; flex-direction: column; }
+  .footer-bottom { padding: 16px 24px 28px; flex-direction: column; align-items: flex-start; gap: 6px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-brand">
+    <div class="nav-brand-main">遛<span>马</span>游戏</div>
+    <div class="nav-brand-sub">游戏研发与发行</div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#product">产品</a></li>
+    <li><a href="#business">业务</a></li>
+    <li><a href="#about">关于我们</a></li>
+    <li><a href="#contact">联系我们</a></li>
+  </ul>
+  <a href="#product" class="nav-cta">体验首款游戏</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-tag fi">游戏研发与发行</div>
+    <h1 class="fi" style="transition-delay:.1s">
+      游戏，是<br>
+      另一种<em>快乐</em><br>
+      的语言。
+    </h1>
+    <p class="hero-desc fi" style="transition-delay:.2s">
+      我们是一家专注游戏研发与发行的科技公司，立足上海，致力于为玩家带来简单、直接、让人发自内心开心的游戏体验。
+    </p>
+    <div class="hero-actions fi" style="transition-delay:.3s">
+      <a href="#product" class="btn-primary">体验飞镖大作战</a>
+      <a href="#about" class="btn-text">了解公司 →</a>
+    </div>
+  </div>
+
+  <div class="hero-right fi" style="transition-delay:.2s">
+    <div class="identity-block">
+      <div class="identity-label">公司主体信息</div>
+      <div class="identity-name">遛马网络科技<br>（上海）有限公司</div>
+      <div class="identity-rows">
+        <div class="identity-row">
+          <span class="identity-row-key">成立时间</span>
+          <span class="identity-row-val">2026 年</span>
+        </div>
+        <div class="identity-row">
+          <span class="identity-row-key">注册地</span>
+          <span class="identity-row-val">上海市</span>
+        </div>
+        <div class="identity-row">
+          <span class="identity-row-key">所属行业</span>
+          <span class="identity-row-val">游戏研发与发行</span>
+        </div>
+        <div class="identity-row">
+          <span class="identity-row-key">主营业务</span>
+          <span class="identity-row-val">游戏研发 · 游戏发行</span>
+        </div>
+        <div class="identity-row">
+          <span class="identity-row-key">首款产品</span>
+          <span class="identity-row-val hi">飞镖大作战 · 现已上线</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUSINESS -->
+<section class="business" id="business">
+  <div class="business-inner">
+    <div class="business-left fi">
+      <div class="eyebrow">推广业务</div>
+      <h2>我们<br>做什么</h2>
+    </div>
+    <div class="biz-cards fi" style="transition-delay:.1s">
+      <div class="biz-card">
+        <div class="biz-num">01</div>
+        <div class="biz-title">游戏研发</div>
+        <p class="biz-desc">独立完成游戏的创意策划、设计开发与质量测试。团队热爱游戏，深知玩家在意什么——我们做的每一款产品，都先让自己玩上瘾。</p>
+      </div>
+      <div class="biz-card">
+        <div class="biz-num">02</div>
+        <div class="biz-title">游戏发行</div>
+        <p class="biz-desc">覆盖移动端、PC 多平台的发行推广能力，负责渠道运营、用户增长与市场拓展，帮助好游戏触达更多玩家。</p>
+      </div>
+      <div class="biz-card">
+        <div class="biz-num">03</div>
+        <div class="biz-title">休闲竞技方向</div>
+        <p class="biz-desc">专注休闲竞技品类，打造易上手、难精通的产品体验。最好的游戏不需要说明书，打开就能玩，玩了就停不下来。</p>
+      </div>
+      <div class="biz-card">
+        <div class="biz-num">04</div>
+        <div class="biz-title">社区运营</div>
+        <p class="biz-desc">游戏上线只是开始。持续运营玩家社区，倾听反馈，保持更新，与玩家一起把每款游戏做得越来越好。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT -->
+<section class="product" id="product">
+  <div class="section-head fi">
+    <span class="eyebrow">产品介绍</span>
+    <a href="#">所有产品</a>
+  </div>
+
+  <div class="product-main fi" style="transition-delay:.1s">
+    <div class="product-info">
+      <div class="product-badge">首款产品 · 现已上线</div>
+      <div class="product-name">飞镖大作战</div>
+      <div class="product-tagline">瞄准、出手、绝杀。</div>
+      <p class="product-body">飞镖大作战是遛马网络科技推出的首款休闲竞技游戏。规则一看就懂，对决一触即发。无论是和朋友随机一局，还是冲击排行榜顶端，每一次出镖都让人屏息。</p>
+      <p class="product-body">我们做这款游戏只想解决一个问题：怎样让两个人在三分钟内争得面红耳赤，最后一起大笑。</p>
+      <div class="product-specs">
+        <div class="spec-item">
+          <div class="spec-key">游戏类型</div>
+          <div class="spec-val">休闲竞技</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-key">支持平台</div>
+          <div class="spec-val">iOS · Android</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-key">游戏模式</div>
+          <div class="spec-val">单人 · 双人 · 排名赛</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-key">收费模式</div>
+          <div class="spec-val">免费下载</div>
+        </div>
+      </div>
+      <a href="#" class="btn-primary">立即下载体验</a>
+    </div>
+    <div class="product-visual">
+      <div class="product-icon">🎯</div>
+      <p class="product-pull">"再来一局，这次我肯定能赢。"</p>
+      <p class="product-attr">— 每个飞镖大作战玩家</p>
+    </div>
+  </div>
+
+  <div class="coming-strip fi" style="transition-delay:.18s">
+    <div class="cs-card">
+      <div class="cs-icon">🎮</div>
+      <div>
+        <div class="cs-label">研发中</div>
+        <div class="cs-title">下一款游戏</div>
+        <div class="cs-note">立项中 · 预计 2026 年内发布</div>
+      </div>
+    </div>
+    <div class="cs-card">
+      <div class="cs-icon">🔔</div>
+      <div>
+        <div class="cs-label">保持关注</div>
+        <div class="cs-title">订阅产品动态</div>
+        <div class="cs-note">第一时间获取新游戏消息</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-left fi">
+    <p class="about-label">关于我们</p>
+    <h2>一群热爱<br>游戏的人，<br>认真做游戏。</h2>
+  </div>
+  <div class="about-right fi" style="transition-delay:.12s">
+    <div class="about-divider"></div>
+    <p>遛马网络科技（上海）有限公司成立于 2026 年，是一家专注于游戏研发与发行的独立游戏公司。核心团队由资深游戏开发者、设计师与运营人员组成，在游戏行业拥有多年经验。</p>
+    <p>我们不追求爆款公式，只追求每一款游戏背后真实的情感与意义。我们相信，做游戏最重要的初心，是让玩的人发自内心地开心——那种忍不住多来一局、忍不住叫上朋友的感觉，就是我们每天来上班的理由。</p>
+    <p>我们的名字来自一种信念：好游戏，就像带着你的马出去遛弯——没有目的地，只有路上的风景。</p>
+  </div>
+</section>
+
+<!-- PHILOSOPHY -->
+<section class="philosophy">
+  <div class="philosophy-inner">
+    <p class="philosophy-label">我们的理念</p>
+    <h2>做让人<em>发笑</em>的游戏，<br>而非有流量的产品。</h2>
+    <p>我们不相信游戏只是商品。每一款作品，都应该能让玩家在某个瞬间停下来，感受，然后忍不住笑出来——"再来一局。"</p>
+    <a href="#contact" class="philosophy-btn">与我们合作 →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-main">
+    <div>
+      <div class="footer-name">遛<span>马</span>网络科技（上海）有限公司</div>
+      <div class="footer-en">Liuma Network Technology (Shanghai) Co., Ltd.</div>
+      <div class="footer-industry">游戏研发 · 游戏发行</div>
+    </div>
+    <ul class="footer-links">
+      <li><a href="#product">产品介绍</a></li>
+      <li><a href="#business">推广业务</a></li>
+      <li><a href="#about">关于我们</a></li>
+      <li><a href="#">加入我们</a></li>
+      <li><a href="#">商务合作</a></li>
+    </ul>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">
+      © 2026 遛马网络科技（上海）有限公司 &nbsp;·&nbsp; 保留所有权利
+      &nbsp;·&nbsp; <a href="#">隐私政策</a>
+      &nbsp;·&nbsp; <a href="#">服务条款</a>
+    </p>
+    <p class="footer-icp">沪ICP备XXXXXXXX号</p>
+  </div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+  setTimeout(() => {
+    document.querySelectorAll('.hero .fi').forEach(el => el.classList.add('on'));
+  }, 80);
+</script>
+</body>
+</html>
